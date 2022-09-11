@@ -1,8 +1,10 @@
 import subprocess
 import sys
 import random
+import unicodedata
 
-def create_user(fullname):
+
+def create_qqqquser(fullname):
     user = {}
     user["first name"] = fullname.split()[0]
     user["last name"] = fullname.split()[1]
