@@ -12,6 +12,14 @@ def create_user(fullname):
     if(len(fullname.split()) > 1):
         lastname = fullname.split()[1]
 
+
+    potential_username = generate_username(firstname, lastname)
+    exist = input(subprocess.run(['getent', 'passwd', potential_username]))
+
+    while(len(exist) != 0):
+        potential_username = generate_username(firstname, lastname)
+        exist = input(subprocess.run(['getent', 'passwd', potential_username]))
+
     user["first name"] = firstname
     user["last name"] = lastname
     user["username"] = generate_username(firstname, lastname)
@@ -41,7 +49,7 @@ def main():
         lines = f.readlines()
 
     for line in lines:
-      users.append(create_user(line))
+        users.append(create_user(line))
         
     for user in users:
         print("First name: {}\nLast name: {}\nUsername: {}\nPassword: {}\n".format(get_first_name(user), get_last_name(user), get_username(user), get_password(user)))
