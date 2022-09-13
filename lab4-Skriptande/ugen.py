@@ -1,31 +1,50 @@
 import subprocess
 import sys
 import random
-import unicodedata
+from randompass import generate_random_password
+from usernamegen import generate_username
 
 
-def create_qqqquser(fullname):
+def create_user(fullname):
     user = {}
-    user["first name"] = fullname.split()[0]
-    user["last name"] = fullname.split()[1]
-    user["user name"] = (fullname.split()[0][0:3] + fullname.split()[1][:2] + str(random.randint(100, 999))).lower()
-    user["password"] = ""
+    firstname = fullname.split()[0]
+    lastname = ""
+    if(len(fullname.split()) > 1):
+        lastname = fullname.split()[1]
 
-    return 
+    user["first name"] = firstname
+    user["last name"] = lastname
+    user["username"] = generate_username(firstname, lastname)
+    user["password"] = generate_random_password()
+
+    return user
+
+def get_first_name(user):
+    return user["first name"]
+
+def get_last_name(user):
+    return user["last name"]
+
+def get_username(user):
+    return user["username"]
+
+def get_password(user):
+    return user["password"]
+
 
 def main():
     file_name = sys.argv[1]
     names = []
-    user_names = {}
+    users = []
 
-    with open (file_name, 'r', encoding='latin_1') as f:
-        content = f.read()
-        names.append(content)
+    with open (file_name, 'r', encoding='utf-8') as f:
+        lines = f.readlines()
 
-    for name in names:
-        print(name)
-    
-    username = "Maghsood"
+    for line in lines:
+      users.append(create_user(line))
+        
+    for user in users:
+        print("First name: {}\nLast name: {}\nUsername: {}\nPassword: {}\n".format(get_first_name(user), get_last_name(user), get_username(user), get_password(user)))
 
     # If we want to give sudo to the user
     #subprocess.run(['useradd' , '-s', '/bin/bash', '-d', '/home/{}/'.format(username), '-m', '-G', 'sudo',  username])
