@@ -10,20 +10,21 @@ def create_user(fullname):
     firstname = fullname.split()[0]
     lastname = ""
     if(len(fullname.split()) > 1):
-        lastname = fullname.split()[1]
+        lastname = "".join(fullname.split()[1:])
 
-
-    potential_username = generate_username(firstname, lastname)
-    exist = input(subprocess.run(['getent', 'passwd', potential_username]))
-
-    while(len(exist) != 0):
+    # Trying to find a username that is not taken
+    while(True):
         potential_username = generate_username(firstname, lastname)
-        exist = input(subprocess.run(['getent', 'passwd', potential_username]))
+        exist = subprocess.run(['getent', 'passwd', potential_username], stdout=subprocess.PIPE).stdout.decode('utf-8')
+        if(len(exist) == 0):
+            break
+
 
     user["first name"] = firstname
     user["last name"] = lastname
-    user["username"] = generate_username(firstname, lastname)
-    user["password"] = generate_random_password()
+    user["username"] = potential_username
+    user["password"] = "1234567" # generate_random_password() this should be a random but for test purposes 
+                                 # can be "1234567"
 
     return user
 
@@ -52,17 +53,20 @@ def main():
         users.append(create_user(line))
         
     for user in users:
-        print("First name: {}\nLast name: {}\nUsername: {}\nPassword: {}\n".format(get_first_name(user), get_last_name(user), get_username(user), get_password(user)))
+        username = get_username(user)
+        password = get_password(user)
+        print("First name: {}\nLast name: {}\nUsername: {}\nPassword: {}\n".format(get_first_name(user), get_last_name(user), username, password))
 
-    # If we want to give sudo to the user
-    #subprocess.run(['useradd' , '-s', '/bin/bash', '-d', '/home/{}/'.format(username), '-m', '-G', 'sudo',  username])
+        # If we want to give sudo to the user
+        #subprocess.run(['useradd' , '-s', '/bin/bash', '-d', '/home/{}/'.format(username), '-m', '-G', 'sudo',  username])
 
-    # If we don't want to give sudo to the user
-    # subprocess.run(['useradd' , '-s', '/bin/bash', '-d', '/home/{}/'.format(username), '-m', username])
+        # If we don't want to give sudo to the user
+        subprocess.run(['useradd' , '-s', '/bin/bash', '-d', '/home/{}/'.format(get_username(user)), '-m', get_username(user)])
 
-    # password = "123456\n123456"
+        proc = subprocess.Popen(['passwd', username], stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = subprocess.PIPE)  
+        proc.stdin.write('{}\n'.format(password).encode('utf-8'))  
+        proc.stdin.write('{}'.format(password).encode('utf-8'))
 
-    # subprocess.run(['printf', password, '|', 'passwd', username])
 
 
 #==================
