@@ -1,6 +1,5 @@
 import subprocess
 import sys
-import random
 from randompass import generate_random_password
 from usernamegen import generate_username
 
