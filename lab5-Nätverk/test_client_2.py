@@ -2,9 +2,9 @@ import subprocess
 import netifaces as ni
 
 class TestClientTwo:
+    MY_IP = '10.0.0.3'
     ROUTER_IP = '10.0.0.1'
     CLIENT_1_IP = '10.0.0.2'
-    MY_IP = '10.0.0.3'
     SERVER_IP = '10.0.0.4'
     MY_INTERFACE = 'ens3'
     NETMASK = '255.255.255.0'
