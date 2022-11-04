@@ -1,0 +1,18 @@
+$TTL 1h
+@ In SOA ns1.saysahadan.example.com root.saysahadan.example.com(
+		2022110411 ; SERIAL
+		2h ; Refresh
+		1h ; Retry
+		1w ; Expire
+		1h ; Minimum
+)
+@ IN NS		ns1.saysahadan.example.com.
+@ IN NS		ns2.saysahadan.example.com.
+;saysahadan.example.com IN A 10.0.0.4
+ns1	IN A		10.0.0.4
+ns2	IN A		10.0.0.4
+;server IN CNAME saysahadan.example.com.
+client1 IN A 10.0.0.2
+client2 IN A 10.0.0.3
+gw IN A 10.0.0.1
+server IN A 10.0.0.4
