@@ -12,23 +12,27 @@ class TestDNSRouter:
     def test_name_server(self):
         proc1 = subprocess.run(['cat /etc/resolv.conf | grep ' + '{}'.format(self.NAME_SERVER_IP)], shell=True)
         assert proc1.returncode == 0
-
-    # def test_my_netmask(self):
-    #     netmask = ni.ifaddresses(self.MY_INTERFACE)[ni.AF_INET][0]['netmask']
-    #     assert netmask == self.NETMASK
-        
-    # def test_ping_google(self):
-    #     response = subprocess.run(['ping', 'google.com', '-c 4'])
-    #     assert response.returncode == 0
-            
-    # def test_ping_router(self):
-    #     response = subprocess.run(['ping', self.ROUTER_IP, '-c 4'])
-    #     assert response.returncode == 0
     
-    # def test_ping_client_2(self):
-    #     response = subprocess.run(['ping', self.CLIENT_2_IP, '-c 4'])
-    #     assert response.returncode == 0
+    def test_forward_dig_server(self):
+        result = subprocess.run(['dig', 'server.saysahadan.example.com', '+short'], stdout=subprocess.PIPE).stdout.decode('utf-8')
+        assert result.strip() == self.NAME_SERVER_IP 
 
-    # def test_ping_server(self):
-    #     response = subprocess.run(['ping', self.SERVER_IP, '-c 4'])
-    #     assert response.returncode == 0
+    def test_forward_dig_client1(self):
+        result = subprocess.run(['dig', 'client1.saysahadan.example.com', '+short'], stdout=subprocess.PIPE).stdout.decode('utf-8')
+        assert result.strip() == self.CLIENT_1_IP 
+
+    def test_forward_dig_client2(self):
+        result = subprocess.run(['dig', 'client2.saysahadan.example.com', '+short'], stdout=subprocess.PIPE).stdout.decode('utf-8')
+        assert result.strip() == self.CLIENT_2_IP 
+
+    def test_reverse_dig_server(self):
+        result = subprocess.run(['dig', '-x', self.NAME_SERVER_IP, '+short'], stdout=subprocess.PIPE).stdout.decode('utf-8')
+        assert result.strip() == "server."
+
+    def test_reverse_dig_client1(self):
+        result = subprocess.run(['dig', '-x', self.CLIENT_1_IP, '+short'], stdout=subprocess.PIPE).stdout.decode('utf-8')
+        assert result.strip() == "client1." 
+
+    def test_reverse_dig_client2(self):
+        result = subprocess.run(['dig', '-x', self.CLIENT_2_IP, '+short'], stdout=subprocess.PIPE).stdout.decode('utf-8')
+        assert result.strip() == "client2." 

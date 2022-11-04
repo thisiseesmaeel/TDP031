@@ -26,22 +26,22 @@ class TestDNSRouter:
         result = subprocess.run(['dig', 'gw.saysahadan.example.com', '+short'], stdout=subprocess.PIPE).stdout.decode('utf-8')
         assert result.strip() == self.ROUTER_IP 
 
-    def test_forward_dig_router(self):
+    def test_forward_dig_client1(self):
         result = subprocess.run(['dig', 'client1.saysahadan.example.com', '+short'], stdout=subprocess.PIPE).stdout.decode('utf-8')
         assert result.strip() == self.CLIENT_1_IP 
 
-    def test_forward_dig_router(self):
+    def test_forward_dig_client2(self):
         result = subprocess.run(['dig', 'client2.saysahadan.example.com', '+short'], stdout=subprocess.PIPE).stdout.decode('utf-8')
         assert result.strip() == self.CLIENT_2_IP 
 
     def test_reverse_dig_router(self):
-        result = subprocess.run(['dig', '-x' ,self.ROUTER_IP, '+short'], stdout=subprocess.PIPE).stdout.decode('utf-8')
+        result = subprocess.run(['dig', '-x', self.ROUTER_IP, '+short'], stdout=subprocess.PIPE).stdout.decode('utf-8')
         assert result.strip() == "gw."
 
-    def test_reverse_dig_router(self):
-        result = subprocess.run(['dig', '-x' ,self.CLIENT_1_IP, '+short'], stdout=subprocess.PIPE).stdout.decode('utf-8')
+    def test_reverse_dig_client1(self):
+        result = subprocess.run(['dig', '-x', self.CLIENT_1_IP, '+short'], stdout=subprocess.PIPE).stdout.decode('utf-8')
         assert result.strip() == "client1." 
 
-    def test_reverse_dig_router(self):
-        result = subprocess.run(['dig', '-x' , self.CLIENT_2_IP, '+short'], stdout=subprocess.PIPE).stdout.decode('utf-8')
+    def test_reverse_dig_client2(self):
+        result = subprocess.run(['dig', '-x', self.CLIENT_2_IP, '+short'], stdout=subprocess.PIPE).stdout.decode('utf-8')
         assert result.strip() == "client2." 
