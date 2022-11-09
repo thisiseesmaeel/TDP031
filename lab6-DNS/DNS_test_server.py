@@ -2,7 +2,7 @@ from difflib import restore
 import subprocess
 import netifaces as ni
 
-class TestDNSRouter:
+class TestDNSServer:
     MY_IP = '10.0.0.4'
     CLIENT_1_IP = '10.0.0.2'
     CLIENT_2_IP = '10.0.0.3'

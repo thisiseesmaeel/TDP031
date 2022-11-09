@@ -1,7 +1,7 @@
 import subprocess
 import netifaces as ni
 
-class TestDNSRouter:
+class TestDNSClient1:
     MY_IP = '10.0.0.2'
     ROUTER_IP = '10.0.0.1'
     CLIENT_2_IP = '10.0.0.3'
