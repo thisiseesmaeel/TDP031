@@ -22,7 +22,7 @@ def create_user(fullname):
     user["first name"] = firstname
     user["last name"] = lastname
     user["username"] = potential_username
-    user["password"] = "1234567" # generate_random_password() this should be a random but for test purposes 
+    user["password"] = "password" # generate_random_password() this should be a random but for test purposes 
                                  # can be "1234567"
 
     return user
@@ -42,7 +42,6 @@ def get_password(user):
 
 def main():
     file_name = sys.argv[1]
-    names = []
     users = []
 
     with open (file_name, 'r', encoding='utf-8') as f:
@@ -60,14 +59,16 @@ def main():
         #subprocess.run(['useradd' , '-s', '/bin/bash', '-d', '/home/{}/'.format(username), '-m', '-G', 'sudo',  username])
 
         # If we don't want to give sudo to the user
-        subprocess.run(['useradd' , '-s', '/bin/bash', '-d', '/home/{}/'.format(get_username(user)), '-m', get_username(user)])
-
+        p1 = subprocess.run(['useradd' , '-s', '/bin/bash', '-d', '/home/{}/'.format(get_username(user)), '-m', get_username(user)])
+        
         proc = subprocess.Popen(['passwd', username], stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = subprocess.PIPE)  
         proc.stdin.write('{}\n'.format(password).encode('utf-8'))  
         proc.stdin.write('{}'.format(password).encode('utf-8'))
 
-
+def make():
+    subprocess.run(['python3', 'run-make.py'])
 
 #==================
 if __name__ == "__main__":
     main()
+    make()
