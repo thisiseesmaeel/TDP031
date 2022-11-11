@@ -64,11 +64,10 @@ def main():
         proc = subprocess.Popen(['passwd', username], stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = subprocess.PIPE)  
         proc.stdin.write('{}\n'.format(password).encode('utf-8'))  
         proc.stdin.write('{}'.format(password).encode('utf-8'))
+        proc.communicate("\n".encode("utf-8"))
 
-def make():
-    subprocess.run(['python3', 'run-make.py'])
+    subprocess.run(['make', '-C', '/var/yp'])
 
 #==================
 if __name__ == "__main__":
     main()
-    make()
