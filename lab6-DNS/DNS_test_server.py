@@ -21,15 +21,15 @@ class TestDNSServer:
         assert result.endswith("OK\n") 
             
     def test_forward_dig_router(self):
-        result = subprocess.run(['dig', 'gw.saysahadan.example.com', '@server','+short'], stdout=subprocess.PIPE).stdout.decode('utf-8')
+        result = subprocess.run(['dig', 'gw.saysahadan.example.com', '@localhost','+short'], stdout=subprocess.PIPE).stdout.decode('utf-8')
         assert result.strip() == self.ROUTER_IP 
 
     def test_forward_dig_client1(self):
-        result = subprocess.run(['dig', 'client1.saysahadan.example.com', '@server','+short'], stdout=subprocess.PIPE).stdout.decode('utf-8')
+        result = subprocess.run(['dig', 'client1.saysahadan.example.com', '@localhost','+short'], stdout=subprocess.PIPE).stdout.decode('utf-8')
         assert result.strip() == self.CLIENT_1_IP 
 
     def test_forward_dig_client2(self):
-        result = subprocess.run(['dig', 'client2.saysahadan.example.com', '@server','+short'], stdout=subprocess.PIPE).stdout.decode('utf-8')
+        result = subprocess.run(['dig', 'client2.saysahadan.example.com', '@localhost','+short'], stdout=subprocess.PIPE).stdout.decode('utf-8')
         assert result.strip() == self.CLIENT_2_IP 
 
     def test_reverse_dig_router(self):
