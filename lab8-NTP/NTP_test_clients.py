@@ -3,7 +3,7 @@ import re
 import netifaces as ni
 
 class TestDNSClient1:
-    NTP_server = '10.0.0.1' # gw IP address
+    NTP_server_IP = '10.0.0.1' # gw IP address
 
     def test_ntp_service(self):
         status = subprocess.run(['service', 'ntp', 'status'])
@@ -11,8 +11,14 @@ class TestDNSClient1:
 
     def test_ntp_server_config(self):
         result = subprocess.run(['cat', '/etc/ntp.conf'], stdout=subprocess.PIPE).stdout.decode('utf-8')
-        assert re.search(r'\nserver {}'.format(self.NTP_server), result) != None
+        assert re.search(r'\nserver {}'.format(self.NTP_server_IP), result) != None
     
     def test_gw_respond_to_queries(self):
-        result = subprocess.run(['ntpq', '-p', '|', "awk '{print $1}'", '|', 'grep "gw"'], stdout=subprocess.PIPE).stdout.decode('utf-8')
-        assert result == "gw"
+        proc1 = subprocess.Popen(['ntpq', '-p'], stdout=subprocess.PIPE)
+        proc2 = subprocess.Popen(['grep', "gw"], stdout=subprocess.PIPE, stdin=proc1.stdout)
+        proc1.stdout.close()
+        output, err = proc2.communicate()
+        output = output.decode('utf-8')
+        ntp_server = output.split()[0]
+        
+        assert re.search(r'gw', ntp_server) != None
