@@ -3,7 +3,7 @@ import re
 import netifaces as ni
 
 class TestSTOServer:
-    SERVER_REGEX_IP = "10\.0\.0\.4"
+    SERVER_REGEX_IP = r"10\.0\.0\.4"
 
     def test_verify_upstart_mount_usr_local(self):
         result = subprocess.run(['cat', '/etc/fstab'], stdout=subprocess.PIPE).stdout.decode('utf-8')

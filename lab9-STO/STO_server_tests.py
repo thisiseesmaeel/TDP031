@@ -11,10 +11,10 @@ class TestSTOServer:
     # Test for checking if home1 and home2 are exported to the both clients (client1 and client2)
     def test_verify_client_exports(self):
         result = subprocess.run(['cat', '/etc/exports'], stdout=subprocess.PIPE).stdout.decode('utf-8')
-        assert re.search(r'\n/home1\s+{}'.format(self.CLIENT1_REGEX_IP), result) != None
-        assert re.search(r'\n/home2\s+{}'.format(self.CLIENT1_REGEX_IP), result) != None
-        assert re.search(r'\n/home1\s+{}'.format(self.CLIENT2_REGEX_IP), result) != None
-        assert re.search(r'\n/home2\s+{}'.format(self.CLIENT2_REGEX_IP), result) != None
+        assert re.search(r'(\n|^)/home1\s+(({})|(.*{}))'.format(self.CLIENT1_REGEX_IP, self.CLIENT1_REGEX_IP), result) != None
+        assert re.search(r'(\n|^)/home1\s+(({})|(.*{}))'.format(self.CLIENT1_REGEX_IP, self.CLIENT1_REGEX_IP), result) != None
+        assert re.search(r'(\n|^)/home1\s+(({})|(.*{}))'.format(self.CLIENT2_REGEX_IP, self.CLIENT2_REGEX_IP), result) != None
+        assert re.search(r'(\n|^)/home1\s+(({})|(.*{}))'.format(self.CLIENT2_REGEX_IP, self.CLIENT2_REGEX_IP), result) != None
 
     def test_verify_access_rights(self):
         result = subprocess.run(['cat', '/etc/exports'], stdout=subprocess.PIPE).stdout.decode('utf-8')
