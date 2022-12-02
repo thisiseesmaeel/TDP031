@@ -49,7 +49,10 @@ def main():
 
     for line in lines:
         users.append(create_user(line))
-        
+
+    # Do we have to do this?
+    subprocess.run(['systemctl', 'stop', 'autofs'])
+
     for user in users:
         username = get_username(user)
         password = get_password(user)
@@ -66,7 +69,10 @@ def main():
         proc.stdin.write('{}'.format(password).encode('utf-8'))
         proc.communicate("\n".encode("utf-8"))
 
+        subprocess.run(['mv', '/home/{}'.format(get_username(user)), '/home1/{}'.format(get_username(user))])
+
     subprocess.run(['make', '-C', '/var/yp'])
+    subprocess.run(['systemctl', 'restart', 'autofs'])
 
 #==================
 if __name__ == "__main__":
