@@ -14,3 +14,10 @@ class TestSTOServer:
         result = subprocess.run(['cat', '/etc/nsswitch.conf'], stdout=subprocess.PIPE).stdout.decode('utf-8')
         assert re.search(r'\nautomount:((\s+)|(.* ))nis', result) != None
 
+     # Verify that users home can mount automatically (for this test to work we 
+     # use test4 as user so it already exist for this test in order to pass)
+    def test_verify_automount(self):
+        subprocess.run(['stat', '/home/test4'])
+        result = subprocess.run(['ls', '/home'], stdout=subprocess.PIPE).stdout.decode('utf-8').strip()
+        assert re.search(r'(\s|^)test4($|\s)', result) != None
+

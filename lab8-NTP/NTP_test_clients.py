@@ -24,7 +24,6 @@ class TestDNSClient1:
         
         assert re.search(r'gw', ntp_server) != None
 
-    # Complete this test
     def test_response_time(self):
         proc1 = subprocess.Popen(['ntpq', '-p'], stdout=subprocess.PIPE)
         proc2 = subprocess.Popen(['grep', "gw"], stdout=subprocess.PIPE, stdin=proc1.stdout)
