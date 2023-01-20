@@ -1,0 +1,16 @@
+Vi har utvecklat svaret på följande fråga:
+En NTP-klient brukar inte bara ändra systemklockan till en viss tid direkt, utan ökar/minskar hastigheten så att man når målet lite mjukare. Varför?
+Det är för att hålla systemklockan synkroniserad det vill säga att vara i takt med NTP källan.
+
+Komplettering:
+En anledning att systemklockan inte alltid är helt exakt, så även om NTP-klienten ansluter till en korrekt tidsserver kan det finnas en viss felmarginal. Genom att öka eller minska hastigheten på systemklockan kan NTP-klienten kompensera för dessa felmarginaler och så småningom nå den exakta tiden.
+
+En annan anledning till att NTP-klienten kan ändra hastigheten på systemklockan är att det kan hjälpa till att minimera påverkan på systemet som förlitar sig på tiden. Om NTP-klienten ändrar tiden direkt, kan detta resultera i att systemet upplever stora förskjutningar av tiden på kort tid, vilket kan orsaka problem för processer och tjänster som förlitar sig på tiden. Genom att öka eller minska hastigheten på systemklockan gradvis, kan NTP-klienten minimera påverkan på systemet och hjälpa till att förhindra problem som kan uppstå på grund av stora förskjutningar av tiden.
+
+Angående tester som görs med regex har vi dubbelkollat och verifierat att de fungerar. r'' gör en råsträng utav orginal strängen och anledningen att vi hade den var för att vi behövde escapa några specialtecken i vissa tester, men det går även utmärkt att ta bort den och skriva den som vanlig. Jag bifogar en enklare python script som testar just det test fallet som heter "test.py".
+
+Du kan köra testet genom att:
+1) Se till att config.txt filen ligger i samma katalog som test.py
+2) Installera pytest
+3) Köra pytest -q test.py
+4) Testet borde lyckats.

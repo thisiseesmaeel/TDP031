@@ -20,4 +20,3 @@ class TestSTOServer:
         subprocess.run(['stat', '/home/test4'])
         result = subprocess.run(['ls', '/home'], stdout=subprocess.PIPE).stdout.decode('utf-8').strip()
         assert re.search(r'(\s|^)test4($|\s)', result) != None
-
